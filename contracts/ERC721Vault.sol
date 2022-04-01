@@ -15,8 +15,8 @@ import "./IERC721Holder.sol";
 
 contract ERC721Vault is ERC165, IERC721Holder {
   // members
-  IERC721 token;
-  uint256 timelock;
+  IERC721 public token;
+  uint256 public timelock;
   mapping(uint256 => address) owners;
   mapping(uint256 => uint256) locks;
   mapping(address => uint256) balances;
