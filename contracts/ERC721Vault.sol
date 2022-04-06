@@ -53,7 +53,13 @@ contract ERC721Vault is ERC165, IERC721Holder {
     view
     override
     returns (address)
-  {}
+  {
+    require(
+      _tokenAddress == address(token),
+      "ERC721Vault: invalid token address"
+    );
+    return owners[_tokenID];
+  }
 
   /**
    * @inheritdoc IERC721Holder
@@ -63,7 +69,13 @@ contract ERC721Vault is ERC165, IERC721Holder {
     view
     override
     returns (uint256)
-  {}
+  {
+    require(
+      _tokenAddress == address(token),
+      "ERC721Vault: invalid token address"
+    );
+    return balances[_owner];
+  }
 
   /**
    * @notice deposit and lock a token for a period of time

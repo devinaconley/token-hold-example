@@ -8,11 +8,11 @@ BN = BigNumber;
 
 
 describe('IERC721Holder', function () {
-  let owner, alice, bob;
+  let owner, alice, bob, other;
   let holder, token;
 
   beforeEach(async function () {
-    [owner, alice, bob] = await ethers.getSigners();
+    [owner, alice, bob, other] = await ethers.getSigners();
 
     const ERC721Vault = await ethers.getContractFactory('ERC721Vault');
     const TestERC721 = await ethers.getContractFactory('TestERC721');
@@ -166,10 +166,54 @@ describe('IERC721Holder', function () {
       await holder.connect(alice).deposit(5);
     });
 
-    // TODO
+    it('should support holder interface', async function () {
+      expect(await holder.supportsInterface('0x16b900ff')).to.equal(true);
+    });
+
+    it('should support erc165 introspection interface', async function () {
+      expect(await holder.supportsInterface('0x01ffc9a7')).to.equal(true);
+    });
+
+    it('should return held token owner (3)', async function () {
+      expect(await holder.heldOwnerOf(token.address, 3)).to.equal(alice.address);
+    });
+
+    it('should return held token owner (7)', async function () {
+      expect(await holder.heldOwnerOf(token.address, 7)).to.equal(bob.address);
+    });
+
+    it('should return held token owner (5)', async function () {
+      expect(await holder.heldOwnerOf(token.address, 5)).to.equal(alice.address);
+    });
+
+    it('should return held token balance (alice)', async function () {
+      expect(await holder.heldBalanceOf(token.address, alice.address)).to.equal(2);
+    });
+
+    it('should return held token balance (bob)', async function () {
+      expect(await holder.heldBalanceOf(token.address, bob.address)).to.equal(1);
+    });
+
+    it('should return zero address for held token owner of unknown token', async function () {
+      expect(await holder.heldOwnerOf(token.address, 12)).to.equal(constants.AddressZero);
+    });
+
+    it('should return zero held token balance for unknown user address', async function () {
+      expect(await holder.heldBalanceOf(token.address, other.address)).to.equal(0);
+    });
+
+    it('should revert on held owner check for invalid token address', async function () {
+      await expect(
+        holder.heldOwnerOf(other.address, 3)
+      ).to.be.revertedWith('ERC721Vault: invalid token address');
+    });
+
+    it('should revert on held balance check for invalid token address', async function () {
+      await expect(
+        holder.heldBalanceOf(other.address, alice.address)
+      ).to.be.revertedWith('ERC721Vault: invalid token address');
+    });
 
   });
-
-  // TODO
 
 });
