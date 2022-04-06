@@ -17,9 +17,9 @@ contract ERC721Vault is ERC165, IERC721Holder {
   // members
   IERC721 public token;
   uint256 public timelock;
-  mapping(uint256 => address) owners;
-  mapping(uint256 => uint256) locks;
-  mapping(address => uint256) balances;
+  mapping(uint256 => address) public owners;
+  mapping(uint256 => uint256) public locks;
+  mapping(address => uint256) public balances;
 
   /**
    * @param token_ address of token to be stored in vault
@@ -79,6 +79,8 @@ contract ERC721Vault is ERC165, IERC721Holder {
     locks[tokenId] = block.timestamp + timelock;
     balances[msg.sender]++;
 
+    emit Hold(msg.sender, address(token), tokenId);
+
     token.transferFrom(msg.sender, address(this), tokenId);
   }
 
@@ -96,6 +98,8 @@ contract ERC721Vault is ERC165, IERC721Holder {
     delete owners[tokenId];
     delete locks[tokenId];
     balances[msg.sender]--;
+
+    emit Release(msg.sender, address(token), tokenId);
 
     token.safeTransferFrom(address(this), msg.sender, tokenId);
   }
