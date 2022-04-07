@@ -14,11 +14,11 @@ describe('IERC721Holder', function () {
   beforeEach(async function () {
     [owner, alice, bob, other] = await ethers.getSigners();
 
-    const ERC721Vault = await ethers.getContractFactory('ERC721Vault');
-    const TestERC721 = await ethers.getContractFactory('TestERC721');
+    const Vault = await ethers.getContractFactory('Vault');
+    const Token = await ethers.getContractFactory('Token');
 
-    token = await TestERC721.deploy();
-    holder = await ERC721Vault.deploy(token.address, 7 * 24 * 3600);
+    token = await Token.deploy();
+    holder = await Vault.deploy(token.address, 7 * 24 * 3600);
   });
 
   describe('construction', function () {

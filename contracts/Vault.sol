@@ -1,5 +1,5 @@
 /*
-ERC721Vault
+Vault
 
 https://github.com/devinaconley/token-hold-example
 
@@ -13,7 +13,16 @@ import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
 
 import "./IERC721Holder.sol";
 
-contract ERC721Vault is ERC165, IERC721Holder {
+/**
+ * @title Vault
+ *
+ * @notice this contract implements an example "holder" for the proposed
+ * held token ERC standard.
+ 
+ * This example vault contract allows a user to lock up an ERC721 token for
+ * a specified period of time, while still reporting the functional owner
+ */
+contract Vault is ERC165, IERC721Holder {
   // members
   IERC721 public token;
   uint256 public timelock;

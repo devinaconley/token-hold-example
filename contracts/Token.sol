@@ -1,5 +1,5 @@
 /*
-TestToken
+Token
 
 https://github.com/devinaconley/token-hold-example
 
@@ -10,7 +10,7 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
-contract TestERC721 is ERC721 {
+contract Token is ERC721 {
   uint256 public minted;
 
   constructor() ERC721("TestERC721", "NFT") {}
