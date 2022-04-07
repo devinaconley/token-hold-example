@@ -57,33 +57,33 @@ contract Vault is ERC165, IERC721Holder {
   /**
    * @inheritdoc IERC721Holder
    */
-  function heldOwnerOf(address _tokenAddress, uint256 _tokenID)
+  function heldOwnerOf(address tokenAddress, uint256 tokenId)
     external
     view
     override
     returns (address)
   {
     require(
-      _tokenAddress == address(token),
+      tokenAddress == address(token),
       "ERC721Vault: invalid token address"
     );
-    return owners[_tokenID];
+    return owners[tokenId];
   }
 
   /**
    * @inheritdoc IERC721Holder
    */
-  function heldBalanceOf(address _tokenAddress, address _owner)
+  function heldBalanceOf(address tokenAddress, address owner)
     external
     view
     override
     returns (uint256)
   {
     require(
-      _tokenAddress == address(token),
+      tokenAddress == address(token),
       "ERC721Vault: invalid token address"
     );
-    return balances[_owner];
+    return balances[owner];
   }
 
   /**

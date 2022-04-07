@@ -113,9 +113,8 @@ describe('IERC721Holder', function () {
     describe('when sender does not own token', function () {
       it('should fail', async function () {
         await ethers.provider.send("evm_mine", [this.block.timestamp + 7 * 24 * 3600]);
-        await expect(
-          holder.connect(bob).withdraw(2)
-        ).to.be.revertedWith('ERC721Vault: sender does not own token');
+        await expect(holder.connect(bob).withdraw(2))
+          .to.be.revertedWith('ERC721Vault: sender does not own token');
       });
     });
 
@@ -203,15 +202,13 @@ describe('IERC721Holder', function () {
     });
 
     it('should revert on held owner check for invalid token address', async function () {
-      await expect(
-        holder.heldOwnerOf(other.address, 3)
-      ).to.be.revertedWith('ERC721Vault: invalid token address');
+      await expect(holder.heldOwnerOf(other.address, 3))
+        .to.be.revertedWith('ERC721Vault: invalid token address');
     });
 
     it('should revert on held balance check for invalid token address', async function () {
-      await expect(
-        holder.heldBalanceOf(other.address, alice.address)
-      ).to.be.revertedWith('ERC721Vault: invalid token address');
+      await expect(holder.heldBalanceOf(other.address, alice.address))
+        .to.be.revertedWith('ERC721Vault: invalid token address');
     });
 
   });
