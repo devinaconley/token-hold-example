@@ -1,5 +1,5 @@
 /*
-IERC721Holder
+IERC1155Holder
 
 https://github.com/devinaconley/token-hold-example
 
@@ -11,20 +11,22 @@ import "@openzeppelin/contracts/interfaces/IERC165.sol";
 pragma solidity ^0.8.0;
 
 /**
- * @notice the ERC721 holder standard provides a common interface to query
- * token ownership and balance information
+ * @notice the ERC1155 holder standard provides a common interface to query
+ * token balance information
  */
-interface IERC721Holder is IERC165 {
+interface IERC1155Holder is IERC165 {
   /**
    * @notice emitted when the token is transferred to the contract
    * @param owner functional token owner
    * @param tokenAddress held token address
    * @param tokenId held token ID
+   * @param tokenAmount held token amount
    */
   event Hold(
     address indexed owner,
     address indexed tokenAddress,
-    uint256 indexed tokenId
+    uint256 indexed tokenId,
+    uint256 tokenAmount
   );
 
   /**
@@ -32,32 +34,25 @@ interface IERC721Holder is IERC165 {
    * @param owner functional token owner
    * @param tokenAddress held token address
    * @param tokenId held token ID
+   * @param tokenAmount held token amount
    */
   event Release(
     address indexed owner,
     address indexed tokenAddress,
-    uint256 indexed tokenId
+    uint256 indexed tokenId,
+    uint256 tokenAmount
   );
-
-  /**
-   * @notice get the functional owner of a held token
-   * @param tokenAddress held token address
-   * @param tokenId held token ID
-   * @return functional token owner
-   */
-  function heldOwnerOf(address tokenAddress, uint256 tokenId)
-    external
-    view
-    returns (address);
 
   /**
    * @notice get the held balance of the token owner
    * @param tokenAddress held token address
    * @param owner functional token owner
+   * @param tokenId held token ID
    * @return held token balance
    */
-  function heldBalanceOf(address tokenAddress, address owner)
-    external
-    view
-    returns (uint256);
+  function heldBalanceOf(
+    address tokenAddress,
+    address owner,
+    uint256 tokenId
+  ) external view returns (uint256);
 }
