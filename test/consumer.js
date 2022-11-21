@@ -31,6 +31,9 @@ describe('Consumer', function () {
     await holder.connect(alice).deposit(3);
     await holder.connect(bob).deposit(7);
     await holder.connect(alice).deposit(5);
+
+    await token.connect(other).mint(5);
+    await token.connect(other).transferFrom(other.address, consumer.address, 11);
   });
 
   describe('construction', function () {
@@ -50,7 +53,7 @@ describe('Consumer', function () {
       });
     });
 
-    describe('when owner', function () {
+    describe('when owner is a user', function () {
       it('should return user address', async function () {
         expect(await consumer.getOwner(1)).to.equal(alice.address);
       });
@@ -59,6 +62,12 @@ describe('Consumer', function () {
     describe('when owner is holder contract', function () {
       it('should return functional user owner', async function () {
         expect(await consumer.getOwner(3)).to.equal(alice.address);
+      });
+    });
+
+    describe('when owner is another contract', function () {
+      it('should return contract address', async function () {
+        expect(await consumer.getOwner(11)).to.equal(consumer.address);
       });
     });
 
